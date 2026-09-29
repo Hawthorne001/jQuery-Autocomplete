@@ -32,7 +32,7 @@ TypeScript source under `src/` (~700 lines split into ~8 modules) compiles to a 
 
 ## CI
 
-`.github/workflows/ci.yml` runs on every push to `master` and every pull request: `npm ci`, then `lint`, `format:check`, `typecheck`, `test`, `build` — in that order, all required. Node 20 LTS, Ubuntu, single job. The `engines.node` field in `package.json` mirrors the runner version.
+`.github/workflows/ci.yml` runs on every push to `master` and every pull request: `npm ci`, then `lint`, `format:check`, `typecheck`, `test`, `build` — in that order, all required. Node 24 LTS (jsdom 30+ requires Node ≥22.22 / ≥24.15), Ubuntu, single job. The `engines.node` field in `package.json` mirrors the runner version.
 
 ## Tests
 
@@ -66,7 +66,7 @@ The minified UMD is ~13 KB; the unminified is ~26 KB.
 
 ## Updating dependencies
 
-**npm 10 cannot resolve this tree.** Both `npm audit fix` and `npm update` die with `Cannot read properties of null (reading 'edgesOut')` — an arborist bug triggered by the aliased `overrides` block. Use `npx --yes npm@11 <command>` for anything that rebuilds the ideal tree (`install`, `update`, `audit fix`). `npm ci` reifies straight from the lockfile and works on both, so CI (Node 20 / npm 10) is unaffected.
+**npm 10 cannot resolve this tree.** Both `npm audit fix` and `npm update` die with `Cannot read properties of null (reading 'edgesOut')` — an arborist bug triggered by the aliased `overrides` block. Node 24 ships npm 11, which works; on an older local Node, use `npx --yes npm@11 <command>` for anything that rebuilds the ideal tree (`install`, `update`, `audit fix`). `npm ci` reifies straight from the lockfile and works on both.
 
 ## Architecture notes that aren't obvious from a glance
 
